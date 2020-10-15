@@ -21,7 +21,7 @@
        :on-click #(rf/dispatch [::state/toggle-timer id])}
       [:div {:style {:width "100%"}}
        [:p.is-size-4 current-time]
-       [:small.heading time " - " mode]]]]))
+       [:small.heading mode]]]]))
 
 
 (defn timers []

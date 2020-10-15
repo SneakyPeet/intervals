@@ -33,12 +33,28 @@
                          (into {})))))
 
 
-(rf/reg-event-db
+(rf/reg-event-fx
  ::tick
- (fn [db _]
+ (fn [{:keys [db]} _]
    (if-let [id (:selected-timer db)]
-     (update-in db [:times id] dec)
-     db)))
+     (let [current-time (get-in db [:times id])
+           {:keys [mode time]} (get-in db [:timers id])
+           next (dec current-time)
+           reset? (neg? next)
+           stop? (and reset? (= :once mode))
+           beep? (> 4 next 0)]
+       (cond-> {:db
+                (cond-> db
+                  reset?
+                  (assoc-in [:times id] time)
+
+                  (not reset?)
+                  (assoc-in [:times id] next)
+
+                  stop?
+                  (dissoc :selected-timer))}
+         beep? (assoc :play-sound :beep)))
+     {:db db})))
 
 
 (rf/reg-event-db

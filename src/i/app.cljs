@@ -4,7 +4,8 @@
             [re-frame.core :as rf]
             [reagent.dom :as rd]
             [i.components :as c]
-            [i.state :as state]))
+            [i.state :as state]
+            [i.audio]))
 
 (defn app []
   [:div.section
