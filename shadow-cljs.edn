@@ -18,4 +18,13 @@
    :modules
    {:main
     {:entries [i.app]}}
+   }
+  :prod
+  {:target :browser
+   :output-dir "deploy/js"
+   :asset-path "/js"
+
+   :modules
+   {:main
+    {:entries [i.app]}}
    }}}

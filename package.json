@@ -8,5 +8,14 @@
   "dependencies": {
     "react": "16.13.1",
     "react-dom": "16.13.0"
+  },
+  "scripts": {
+    "clean": "rm -rf deploy",
+    "clean:js": "rm -rf deploy/js",
+    "copy": "cp -r public deploy",
+    "build:source": "shadow-cljs release prod",
+    "build": "npm run clean && npm run copy && npm run clean:js && npm run build:source",
+    "deploy": "surge ./deploy sneaky-intervals.surge.sh",
+    "gooi": "npm run build && npm run deploy"
   }
 }
