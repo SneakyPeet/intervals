@@ -3,8 +3,8 @@
 
 
 (def ^:private timers
-  [[33 :repeat]
-   [63 :repeat]
+  [[32 :repeat]
+   [62 :repeat]
    [60 :once]
    [120 :once]
    [180 :once]
@@ -44,7 +44,8 @@
            next (dec current-time)
            reset? (neg? next)
            stop? (and reset? (= :once mode))
-           beep? (>= 3 next 0)]
+           beep? (>= 3 next 0)
+           indicate? (zero? (mod next 30))]
        (cond-> {:db
                 (cond-> db
                   reset?
@@ -55,7 +56,7 @@
 
                   stop?
                   (dissoc :selected-timer))}
-         beep? (assoc :play-sound :beep)))
+         (or beep? indicate?) (assoc :play-sound :beep)))
      {:db db})))
 
 

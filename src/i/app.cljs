@@ -7,7 +7,7 @@
             [i.state :as state]
             [i.audio]))
 
-(def v 5)
+(def v 7)
 
 (defn- version []
   [:span {:style {:position "fixed"
@@ -16,7 +16,9 @@
    v])
 
 (defn app []
-  [:div.section.has-background-dark {:style {:height "100vh"}}
+  [:div.section.has-background-dark
+   {:style {:height "100vh"
+            :user-select "none"}}
    [:div.container
     [version]
     [c/timers]
