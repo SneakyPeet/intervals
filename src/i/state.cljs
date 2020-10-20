@@ -3,10 +3,12 @@
 
 
 (def ^:private timers
-  [[30 :repeat]
-   [60 :repeat]
+  [[33 :repeat]
+   [63 :repeat]
    [60 :once]
-   [120 :once]])
+   [120 :once]
+   [180 :once]
+   [300 :once]])
 
 
 (rf/reg-event-fx
@@ -42,7 +44,7 @@
            next (dec current-time)
            reset? (neg? next)
            stop? (and reset? (= :once mode))
-           beep? (> 4 next 0)]
+           beep? (>= 3 next 0)]
        (cond-> {:db
                 (cond-> db
                   reset?

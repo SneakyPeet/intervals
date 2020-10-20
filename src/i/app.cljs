@@ -7,9 +7,18 @@
             [i.state :as state]
             [i.audio]))
 
+(def v 5)
+
+(defn- version []
+  [:span {:style {:position "fixed"
+                  :right "1rem"
+                  :bottom "1rem"}}
+   v])
+
 (defn app []
-  [:div.section
+  [:div.section.has-background-dark {:style {:height "100vh"}}
    [:div.container
+    [version]
     [c/timers]
     [c/buttons]]])
 
@@ -23,9 +32,17 @@
   (mount-reagent))
 
 
+(defn- wake-lock []
+  (when (and js/navigator js/navigator.wakeLock)
+    (-> (js/navigator.wakeLock.request "screen")
+        (.then #(prn "woke"))
+        (.catch #(js/alert "wakelock not available")))))
+
+
 (defn- listen []
   (events/listen js/window "load" #(run))
-  (js/setInterval #(rf/dispatch [::state/tick]) 1000))
+  (js/setInterval #(rf/dispatch [::state/tick]) 1000)
+  (wake-lock))
 
 (defonce listening? (listen))
 
